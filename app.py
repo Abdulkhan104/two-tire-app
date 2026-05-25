@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Configure MySQL from environment variables
 app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
 app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'abdul')
-app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'Cloud$123')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', 'Cloud123')
 app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'devops')
 
 # Initialize MySQL
