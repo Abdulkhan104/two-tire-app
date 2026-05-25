@@ -3,642 +3,182 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NexusFlow | Professional Dashboard</title>
-    <!-- Google Fonts + Icon Library -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
     <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        /* Reset Default Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
+        /* Background with subtle gradient */
         body {
-            background: radial-gradient(circle at 10% 30%, #0A0F1E, #03060C);
-            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #0f0f0f, #1c1c1c);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
+            padding: 20px;
         }
 
-        /* subtle animated grid */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Glassmorphic Container */
+        .container {
+            max-width: 600px;
             width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
-            background-size: 48px 48px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* main card - premium glassmorphism v2 */
-        .dashboard-card {
-            max-width: 720px;
-            width: 100%;
-            background: rgba(12, 20, 30, 0.68);
-            backdrop-filter: blur(18px);
-            border-radius: 2.5rem;
-            border: 1px solid rgba(72, 187, 255, 0.25);
-            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
-            transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
-            position: relative;
-            z-index: 2;
-        }
-
-        .dashboard-card:hover {
-            border-color: rgba(0, 212, 255, 0.5);
-            box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 212, 255, 0.2) inset;
-            transform: translateY(-3px);
-        }
-
-        /* inner content padding */
-        .card-content {
-            padding: 2rem 2rem 2.2rem;
-        }
-
-        /* header area with badge */
-        .header-badge {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 1.75rem;
-            gap: 12px;
-        }
-
-        .badge {
-            background: rgba(0, 212, 255, 0.12);
-            backdrop-filter: blur(4px);
-            padding: 0.4rem 1rem;
-            border-radius: 60px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            color: #7FD9FF;
-            border: 0.5px solid rgba(0, 212, 255, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .badge i {
-            font-size: 0.8rem;
-        }
-
-        .status-led {
-            width: 8px;
-            height: 8px;
-            background: #2DD4BF;
-            border-radius: 50%;
-            box-shadow: 0 0 6px #2DD4BF;
-            display: inline-block;
-            margin-right: 6px;
-        }
-
-        /* PROFESSIONAL H1 SECTION (redesigned) */
-        .title-block {
-            margin-bottom: 1.5rem;
-            border-left: 4px solid #00D4FF;
-            padding-left: 1.2rem;
-        }
-
-        .title-block h1 {
-            font-size: 1.9rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #F0F9FF 0%, #B2E6FF 80%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-            line-height: 1.3;
-            margin-bottom: 0.25rem;
-        }
-
-        .title-block .sub {
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: #8CA3BA;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 6px;
-        }
-
-        .title-block .sub i {
-            font-size: 0.7rem;
-            color: #00D4FF;
-        }
-
-        /* enhanced message stream (professional feed) */
-        .message-feed {
-            background: rgba(0, 0, 0, 0.35);
-            border-radius: 1.5rem;
-            margin: 1.8rem 0 1.8rem;
-            padding: 0.2rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-            transition: all 0.2s;
-        }
-
-        .feed-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem 1.4rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .feed-header span {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #8BA5C9;
-        }
-
-        .feed-header i {
-            color: #2DD4BF;
-            font-size: 0.7rem;
-        }
-
-        .messages {
-            max-height: 280px;
-            overflow-y: auto;
-            padding: 0.6rem 0.2rem 0.6rem 0;
-            scrollbar-width: thin;
-            scrollbar-color: #00D4FF #1e2a3a;
-        }
-
-        .messages::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .messages::-webkit-scrollbar-track {
-            background: #111a24;
-            border-radius: 10px;
-        }
-
-        .messages::-webkit-scrollbar-thumb {
-            background: #00D4FF;
-            border-radius: 10px;
-        }
-
-        /* each message bubble - modern minimal */
-        .message-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            margin: 10px 14px;
-            padding: 12px 16px;
-            border-radius: 18px;
-            backdrop-filter: blur(2px);
-            transition: all 0.2s ease;
-            border: 0.5px solid rgba(255, 255, 255, 0.02);
-        }
-
-        .message-item:hover {
-            background: rgba(0, 212, 255, 0.05);
-            border-left: 2px solid #00D4FF;
-            transform: translateX(4px);
-        }
-
-        .msg-avatar {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(145deg, #1E2A3A, #0F1722);
-            border-radius: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            color: #7FD9FF;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            flex-shrink: 0;
-        }
-
-        .msg-content {
-            flex: 1;
-        }
-
-        .msg-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #EFF3F8;
-            line-height: 1.4;
-            word-break: break-word;
-        }
-
-        .msg-time {
-            font-size: 0.65rem;
-            color: #6D8AAC;
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .empty-state {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
-            padding: 2rem 1rem;
-            color: #5e7c9c;
-            font-size: 0.85rem;
-            font-weight: 400;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .empty-state i {
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Elegant Heading */
+        h1 {
             font-size: 2rem;
-            opacity: 0.5;
-        }
-
-        /* premium form styling */
-        .input-group {
-            margin-top: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .floating-input {
-            position: relative;
-            width: 100%;
-        }
-
-        .floating-input input {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            background: rgba(0, 0, 0, 0.45);
-            border: 1.5px solid rgba(72, 187, 255, 0.25);
-            border-radius: 2rem;
-            font-size: 1rem;
-            color: white;
-            font-weight: 500;
-            transition: all 0.25s;
-            outline: none;
-            font-family: 'Inter', monospace;
-            letter-spacing: 0.2px;
-        }
-
-        .floating-input input:focus {
-            border-color: #00D4FF;
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
-            background: rgba(8, 18, 28, 0.8);
-        }
-
-        .floating-input input::placeholder {
-            color: #9BB4D0;
-            font-weight: 400;
-            font-size: 0.9rem;
-        }
-
-        .btn-send {
-            background: linear-gradient(105deg, #0077FF, #00C2FF);
-            border: none;
-            padding: 0.9rem 1rem;
-            border-radius: 3rem;
             font-weight: 600;
-            font-size: 1rem;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 8px 20px -8px rgba(0, 180, 255, 0.35);
-            letter-spacing: 0.3px;
+            background: linear-gradient(135deg, #ff9800, #e65100);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
         }
 
-        .btn-send i {
-            font-size: 1rem;
-            transition: transform 0.2s;
+        /* Messages Box */
+        .messages {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
-        .btn-send:hover {
-            background: linear-gradient(105deg, #1A85FF, #00D0FF);
-            transform: scale(1.01);
-            box-shadow: 0 12px 28px -10px #00a6ff80;
+        .messages p {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
         }
 
-        .btn-send:active {
-            transform: scale(0.98);
-        }
-
-        /* toast / custom alert alternative */
-        .toast-message {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.9);
-            background: #0F212E;
-            backdrop-filter: blur(16px);
-            padding: 10px 22px;
-            border-radius: 60px;
-            color: white;
-            font-weight: 500;
-            font-size: 0.85rem;
-            border-left: 4px solid #FFB347;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-            pointer-events: none;
-        }
-
-        .toast-message.show {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-        }
-
-        /* footer small stats */
-        .meta-footer {
-            margin-top: 1.5rem;
-            font-size: 0.7rem;
+        /* Animated Input Fields */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
             text-align: center;
-            color: #5E7D9E;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 16px;
         }
 
-        .meta-footer i {
-            margin-right: 4px;
-            font-size: 0.65rem;
+        input[type="text"]:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 12px rgba(255, 152, 0, 0.5);
+            outline: none;
         }
 
+        /* Glowing Submit Button */
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff9800, #e65100);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 600px) {
-            body { padding: 1rem; }
-            .card-content { padding: 1.5rem; }
-            .title-block h1 { font-size: 1.5rem; }
-            .message-item { margin: 8px 8px; padding: 10px 12px; }
-            .btn-send { padding: 0.75rem; }
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            input[type="text"], input[type="submit"] {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="dashboard-card">
-        <div class="card-content">
-            <!-- header badge & system info -->
-            <div class="header-badge">
-                <div class="badge">
-                    <i class="fas fa-database"></i>
-                    <span class="status-led"></span> 
-                    MySQL · Active
-                </div>
-                <div class="badge">
-                    <i class="fas fa-code-branch"></i> 2-Tier Architecture
-                </div>
-            </div>
+    <div class="container">
+        <h1>Flask App Chit Chat Appication</h1>
 
-            <!-- PROFESSIONAL H1 & BRAND CONTENT (changed completely) -->
-            <div class="title-block">
-                <h1>
-                    <i class="fas fa-bolt" style="background: none; -webkit-background-clip: unset; color: #00D4FF; margin-right: 8px;"></i> 
-                    Nexus Message Hub
-                </h1>
-                <div class="sub">
-                    <i class="fas fa-cloud-upload-alt"></i> 
-                    Real-time stream · MySQL persistent storage
-                    <i class="fas fa-shield-alt" style="margin-left: auto;"></i>
-                </div>
-            </div>
-
-            <!-- message feed container (enhanced UI) -->
-            <div class="message-feed">
-                <div class="feed-header">
-                    <span><i class="far fa-comment-dots"></i> Live conversation log</span>
-                    <i class="fas fa-sync-alt fa-fw" style="font-size: 0.7rem;"></i>
-                </div>
-                <div class="messages" id="messageList">
-                    <!-- dynamic messages injected here with professional styling -->
-                    <!-- sample backend messages will be rendered here via Jinja, but we also handle dynamic -->
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="message-item">
-                                <div class="msg-avatar">
-                                    <i class="fas fa-user-astronaut"></i>
-                                </div>
-                                <div class="msg-content">
-                                    <div class="msg-text">{{ message[0] }}</div>
-                                    <div class="msg-time">
-                                        <i class="far fa-clock"></i> just now
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="empty-state">
-                            <i class="fas fa-inbox"></i>
-                            <span>No messages yet · Start a conversation</span>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- elegant form area -->
-            <form id="messageForm">
-                <div class="input-group">
-                    <div class="floating-input">
-                        <input type="text" id="msgInput" name="new_message" placeholder="Write your message..." autocomplete="off">
-                    </div>
-                    <button type="submit" class="btn-send">
-                        <i class="fas fa-paper-plane"></i> Publish message
-                    </button>
-                </div>
-            </form>
-
-            <div class="meta-footer">
-                <span><i class="fas fa-lock"></i> Encrypted channel</span>
-                <span><i class="fas fa-chart-line"></i> Low latency</span>
-                <span><i class="fas fa-code"></i> Flask + MySQL</span>
-            </div>
+        <div class="messages">
+            {% for message in messages %}
+                <p>{{ message[0] }}</p>
+            {% endfor %}
         </div>
+
+        <form id="messageForm">
+            <input type="text" name="new_message" placeholder="Type your message..." required>
+            <input type="submit" value="Send">
+        </form>
     </div>
 
-    <!-- custom toast element -->
-    <div id="customToast" class="toast-message">✨ Message delivered</div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- jQuery for Smooth AJAX Requests -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Helper to show toast with custom text
-            function showToast(text, isError = false) {
-                let $toast = $('#customToast');
-                $toast.text(text || (isError ? "⚠️ Something went wrong" : "✨ Message delivered"));
-                if(isError) {
-                    $toast.css('border-left-color', '#FF6B6B');
-                } else {
-                    $toast.css('border-left-color', '#2DD4BF');
-                }
-                $toast.addClass('show');
-                setTimeout(() => {
-                    $toast.removeClass('show');
-                }, 2500);
-            }
-
-            // Function to add a new message to the UI (optimistic & matches design)
-            function appendMessageToUI(messageText) {
-                let $messageContainer = $('#messageList');
-                // Remove empty state if exists
-                if ($messageContainer.find('.empty-state').length) {
-                    $messageContainer.empty();
-                }
-                // Create new message item with modern bubble style and timestamp
-                const now = new Date();
-                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                const newMessageHtml = `
-                    <div class="message-item new-msg-animate" style="animation: fadeSlideUp 0.25s ease;">
-                        <div class="msg-avatar">
-                            <i class="fas fa-user-check"></i>
-                        </div>
-                        <div class="msg-content">
-                            <div class="msg-text">${escapeHtml(messageText)}</div>
-                            <div class="msg-time">
-                                <i class="far fa-clock"></i> ${timeString}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                $messageContainer.append(newMessageHtml);
-                // scroll to bottom
-                $messageContainer.scrollTop($messageContainer[0].scrollHeight);
-                // optional small animation keyframe
-                const style = document.createElement('style');
-                if(!document.querySelector('#dynamicAnim')) {
-                    style.id = 'dynamicAnim';
-                    style.textContent = `
-                        @keyframes fadeSlideUp {
-                            from { opacity: 0; transform: translateY(12px); }
-                            to { opacity: 1; transform: translateY(0); }
-                        }
-                        .new-msg-animate {
-                            animation: fadeSlideUp 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-            }
-
-            // simple XSS protection
-            function escapeHtml(str) {
-                if(!str) return '';
-                return str.replace(/[&<>]/g, function(m) {
-                    if (m === '&') return '&amp;';
-                    if (m === '<') return '&lt;';
-                    if (m === '>') return '&gt;';
-                    return m;
-                }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-                    return c;
-                });
-            }
-
-            // handle form submission via AJAX (matches Flask endpoint /submit)
             $("#messageForm").on("submit", function(event) {
-                event.preventDefault();
-                let $input = $("#msgInput");
-                let rawMessage = $input.val().trim();
+                event.preventDefault(); // Prevent page reload
 
-                if (rawMessage === "") {
-                    showToast("Cannot send empty message", true);
-                    $input.focus();
+                let messageInput = $("input[name='new_message']");
+                let message = messageInput.val().trim();
+
+                if (message === "") {
+                    alert("Message cannot be empty!");
                     return;
                 }
-
-                // disable button to avoid double sending
-                let $btn = $(".btn-send");
-                $btn.prop('disabled', true);
-                $btn.html('<i class="fas fa-spinner fa-pulse"></i> Processing...');
 
                 $.ajax({
                     url: "/submit",
                     type: "POST",
-                    data: { new_message: rawMessage },
-                    dataType: "json",
+                    data: { new_message: message },
                     success: function(response) {
-                        // success: response should contain { message: "the persisted message" } or similar
                         if (response && response.message) {
-                            // Append the message from server response (safety)
-                            appendMessageToUI(response.message);
-                            showToast("✓ Message stored & synced");
-                            $input.val("");
-                        } else if (response && response.status === "success" && response.text) {
-                            // fallback if some custom schema
-                            appendMessageToUI(response.text);
-                            showToast("✓ Delivered");
-                            $input.val("");
+                            $(".messages").append("<p>" + response.message + "</p>");
+                            messageInput.val("");
                         } else {
-                            // if response is weird but we can still consider the request succeeded
-                            // we will optimistically show the message because backend saved it.
-                            appendMessageToUI(rawMessage);
-                            showToast("Message sent", false);
-                            $input.val("");
+                            console.error("Unexpected response format:", response);
                         }
                     },
-                    error: function(xhr, status, err) {
-                        console.error("AJAX error:", status, err);
-                        let errorMsg = "Failed to deliver";
-                        if (xhr.status === 500) errorMsg = "Server error. Check connectivity";
-                        else if (xhr.status === 404) errorMsg = "Endpoint not found";
-                        showToast(errorMsg, true);
-                        // keep the input to retry
-                    },
-                    complete: function() {
-                        $btn.prop('disabled', false);
-                        $btn.html('<i class="fas fa-paper-plane"></i> Publish message');
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", status, error);
                     }
                 });
             });
-
-            // auto-scroll to bottom if messages overflow
-            function scrollMessagesToBottom() {
-                let $msgDiv = $('#messageList');
-                if($msgDiv.length) {
-                    $msgDiv.scrollTop($msgDiv[0].scrollHeight);
-                }
-            }
-            scrollMessagesToBottom();
-
-            // Additional improvement: When new message from backend initial load, ensure avatars look consistent
-            // Convert any raw message rows from jinja to unified message-item if they lack structure? 
-            // Actually jinja renders with message-item class already, but we also ensure each message has correct icon and timestamp.
-            // For existing messages loaded from backend, we might beautify them (without timestamps) but it's fine.
-            // However to give a consistent modern look: if backend messages lack the msg-time nice display, we patch.
-            $('#messageList .message-item').each(function() {
-                if ($(this).find('.msg-time').length === 0) {
-                    let timeDiv = $('<div class="msg-time"><i class="far fa-clock"></i> archived</div>');
-                    $(this).find('.msg-content').append(timeDiv);
-                }
-                if ($(this).find('.msg-avatar').length === 0) {
-                    $(this).prepend('<div class="msg-avatar"><i class="fas fa-comment"></i></div>');
-                }
-            });
-            if($('#messageList .message-item').length === 0 && $('#messageList').children().length === 0) {
-                // if truly empty after initialization, show empty state but not double.
-                if($('#messageList').children('.empty-state').length === 0) {
-                    $('#messageList').html(`<div class="empty-state"><i class="fas fa-inbox"></i><span>No messages yet · Start a conversation</span></div>`);
-                }
-            }
         });
     </script>
-    <!-- small enhancement: if server returns message without refresh we guarantee scroll and UI consistency -->
 </body>
 
 </html>
